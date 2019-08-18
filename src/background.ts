@@ -1,3 +1,6 @@
+import {firestore} from './firebase';
+console.log(firestore.app.name);
+
 function Log(...args: any[]) {
     // chrome.tabs.executeScript({
     //     code: `console.log(${args.map(str=>`'${str}'`).join(',')})`,
@@ -8,6 +11,15 @@ function Log(...args: any[]) {
 chrome.runtime.onInstalled.addListener(() => {
     Log("Hello world");
     chrome.storage.local.get(Log);
+
+    chrome.webRequest.onBeforeRequest.addListener((details)=>{
+        const bytes: ArrayBuffer = (details.requestBody.raw || [])[0].bytes || new ArrayBuffer(0);
+        Log(Buffer.from(bytes).toString('utf-8'));
+    }, {
+        urls: ["*://api.gotinder.com/*"],
+    }, [
+        'requestBody'
+    ]);
 
     chrome.webRequest.onCompleted.addListener((details) => {
         Log(details);
@@ -59,7 +71,9 @@ async function saveInfo(infos: any[]) {
 }
 
 async function saveAction(action: string, id: string) {
-    chrome.storage.local.set({
-        [id]: action,
-    });
+    await firestore.collection('tinder_actions')
+        .add({
+            action,
+            id,
+        });
 }

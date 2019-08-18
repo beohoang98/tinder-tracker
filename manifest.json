@@ -3,14 +3,16 @@
     "manifest_version": 2,
     "name": "Tinder Tracker",
     "background": {
-        "scripts": ["dist/background.js"],
+        "scripts": [
+            "dist/background.js"
+        ],
         "persistent": true
     },
     "permissions": [
         "webRequest",
         "storage",
-        "http://tinder.com/*",
-        "https://tinder.com/*",
+        "http://tinder.com/app/*",
+        "https://tinder.com/app/*",
         "*://api.gotinder.com/*"
     ]
 }

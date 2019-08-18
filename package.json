@@ -1,10 +1,31 @@
 {
+  "name": "tinder-tracker",
+  "displayName": "Tinder Tracker",
+  "version": "0.0.1",
+  "author": {
+    "name": "beohoang98",
+    "url": "https://github.com/beohoang98"
+  },
+  "bugs": {
+    "url": "https://github.com/beohoang98/tinder-tracker/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/beohoang98/tinder-tracker.git"
+  },
+  "main": "dist/background.js",
   "devDependencies": {
     "@types/chrome": "^0.0.88",
-    "typescript": "^3.5.3"
+    "tsify": "^4.0.1",
+    "typescript": "^3.5.3",
+    "watchify": "^3.11.1"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch"
+    "build": "browserify src/background.ts -p [tsify] -o dist/background.js",
+    "watch": "watchify src/background.ts -p [tsify] -o dist/background.js",
+    "start": "npm run build"
+  },
+  "dependencies": {
+    "firebase": "^6.4.0"
   }
 }
